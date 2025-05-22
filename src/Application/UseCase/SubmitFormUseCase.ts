@@ -26,7 +26,7 @@ export interface SubmitFormUseCase {
  * @param repository フォームリポジトリ（省略可能、デフォルトはcreateFormRepository()の結果）
  * @returns 送信結果。成功した場合は void、失敗した場合はエラーメッセージ
  */
-export function submitForm(
+export async function submitForm(
   data: RegistrationFormData,
   repository: FormRepository = createFormRepository()
 ): Promise<Result<void, ValidationError[] | Error>> {
@@ -34,23 +34,21 @@ export function submitForm(
   const validationResult = repository.validate(data);
 
   if (validationResult._tag === "failure") {
-    return Promise.resolve(validationResult);
+    return validationResult;
   }
 
   // フォームオブジェクトの作成
   const formResult = $RegistrationForm.create(data);
 
   if (formResult._tag === "failure") {
-    return Promise.resolve(formResult);
+    return formResult;
   }
 
   // フォームの送信
   try {
-    return repository.submit(formResult.value);
+    return await repository.submit(formResult.value);
   } catch (error) {
-    return Promise.resolve(
-      failure(error instanceof Error ? error : new Error("Unknown error"))
-    );
+    return failure(error instanceof Error ? error : new Error("Unknown error"));
   }
 }
 
