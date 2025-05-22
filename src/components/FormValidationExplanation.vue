@@ -1,8 +1,6 @@
 <template>
-  <div class="max-w-lg mx-auto p-6 bg-white rounded-2xl shadow-md space-y-6">
-    <h2 class="text-2xl font-bold text-gray-800">
-      フォームバリデーションの説明
-    </h2>
+  <div class="p-6 bg-white rounded-2xl shadow-md space-y-6">
+    <h2 class="text-2xl font-bold text-gray-800">フォームバリデーション</h2>
 
     <div class="space-y-4">
       <h3 class="text-lg font-semibold text-gray-700">実装アーキテクチャ</h3>
