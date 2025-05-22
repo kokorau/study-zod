@@ -1,17 +1,14 @@
 import { z } from "zod";
 import { ErrorCodes, type ErrorCode } from "../../Error/ErrorCodes";
 import type { FormField } from "./FormField";
-import {
-  type FormFieldUtil,
-  type StringField,
-  type OptionalField,
-} from "./FormFieldFactory";
+import { type FormFieldUtil } from "./FormFieldFactory";
 import { success, failure } from "../../Common/Result";
 import { createValidationError } from "../../Error/ValidationError";
+import type { OptionalInput, StringInput } from "../InputType/InputType.ts";
 
 export type BioField = FormField<string>;
 
-export const $BioField: FormFieldUtil<BioField, OptionalField<StringField>> = {
+export const $BioField: FormFieldUtil<BioField, OptionalInput<StringInput>> = {
   schema: () => {
     return z.string().max(1000, {
       message: ErrorCodes.TOO_LONG,

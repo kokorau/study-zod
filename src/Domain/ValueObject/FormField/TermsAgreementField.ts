@@ -1,15 +1,16 @@
 import { z } from "zod";
 import { ErrorCodes } from "../../Error/ErrorCodes";
 import type { FormField } from "./FormField";
-import { type FormFieldUtil, type BooleanField } from "./FormFieldFactory";
+import { type FormFieldUtil } from "./FormFieldFactory";
 import { success, failure } from "../../Common/Result";
 import { createValidationError } from "../../Error/ValidationError";
+import type { BooleanInput } from "../InputType/InputType.ts";
 
 export type TermsAgreementField = FormField<boolean>;
 
 export const $TermsAgreementField: FormFieldUtil<
   TermsAgreementField,
-  BooleanField
+  BooleanInput
 > = {
   schema: () => {
     return z.boolean().refine((val) => val === true, {

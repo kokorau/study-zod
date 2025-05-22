@@ -5,7 +5,8 @@ import type { ValidationError } from "../../Error/ValidationError";
 import { createValidationError } from "../../Error/ValidationError";
 import { ErrorCodes } from "../../Error/ErrorCodes";
 import type { FormField } from "./FormField";
-import type { FormFieldUtil, EnumField } from "./FormFieldFactory";
+import type { FormFieldUtil } from "./FormFieldFactory";
+import type { EnumInput } from "../InputType/InputType.ts";
 
 export const GenderEnum = {
   MALE: "male",
@@ -16,7 +17,7 @@ export type Gender = "male" | "female";
 
 export type GenderField = FormField<Gender>;
 
-export const $GenderField: FormFieldUtil<GenderField, EnumField<Gender>> = {
+export const $GenderField: FormFieldUtil<GenderField, EnumInput<Gender>> = {
   schema: () => {
     return z.enum([GenderEnum.MALE, GenderEnum.FEMALE], {
       errorMap: () => ({ message: ErrorCodes.REQUIRED }),

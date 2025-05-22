@@ -1,13 +1,14 @@
 import { z } from "zod";
 import { ErrorCodes, type ErrorCode } from "../../Error/ErrorCodes";
 import type { FormField } from "./FormField";
-import { type FormFieldUtil, type NumberField } from "./FormFieldFactory";
+import { type FormFieldUtil } from "./FormFieldFactory";
 import { success, failure } from "../../Common/Result";
 import { createValidationError } from "../../Error/ValidationError";
+import type { NumberInput } from "../InputType/InputType.ts";
 
 export type AgeField = FormField<number>;
 
-export const $AgeField: FormFieldUtil<AgeField, NumberField> = {
+export const $AgeField: FormFieldUtil<AgeField, NumberInput> = {
   schema: () => {
     return z
       .number()

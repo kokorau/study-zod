@@ -5,7 +5,8 @@ import type { ValidationError } from "../../Error/ValidationError";
 import { createValidationError } from "../../Error/ValidationError";
 import { ErrorCodes } from "../../Error/ErrorCodes";
 import type { FormField } from "./FormField";
-import type { FormFieldUtil, EnumField } from "./FormFieldFactory";
+import type { FormFieldUtil } from "./FormFieldFactory";
+import type { EnumInput } from "../InputType/InputType.ts";
 
 export const CountryEnum = {
   JAPAN: "jp",
@@ -17,7 +18,7 @@ export type Country = "jp" | "us" | "uk";
 
 export type CountryField = FormField<Country>;
 
-export const $CountryField: FormFieldUtil<CountryField, EnumField<Country>> = {
+export const $CountryField: FormFieldUtil<CountryField, EnumInput<Country>> = {
   schema: () =>
     z.enum([CountryEnum.JAPAN, CountryEnum.USA, CountryEnum.UK], {
       errorMap: () => ({ message: ErrorCodes.REQUIRED }),

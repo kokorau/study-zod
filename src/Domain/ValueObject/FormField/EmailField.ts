@@ -1,15 +1,12 @@
 import { z } from "zod";
 import { ErrorCodes } from "../../Error/ErrorCodes";
 import type { FormField } from "./FormField";
-import {
-  createFormFieldFactory,
-  type FormFieldUtil,
-  type StringField,
-} from "./FormFieldFactory";
+import { createFormFieldFactory, type FormFieldUtil } from "./FormFieldFactory";
+import type { StringInput } from "../InputType/InputType.ts";
 
 export type EmailField = FormField<string>;
 
-export const $EmailField: FormFieldUtil<EmailField, StringField> =
+export const $EmailField: FormFieldUtil<EmailField, StringInput> =
   createFormFieldFactory<string, string>(() => {
     return z
       .string()
