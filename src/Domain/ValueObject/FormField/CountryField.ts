@@ -21,7 +21,7 @@ export type CountryField = FormField<Country>;
 export const $CountryField: FormFieldOperations<Country, EnumInput<Country>> = {
   schema: () =>
     z.enum([CountryEnum.JAPAN, CountryEnum.USA, CountryEnum.UK], {
-      errorMap: () => ({ message: ErrorCodes.REQUIRED }),
+      errorMap: () => ({ message: ErrorCodes.INVALID }),
     }),
   create: (value: string): Result<CountryField, ValidationError[]> => {
     if (!value) {

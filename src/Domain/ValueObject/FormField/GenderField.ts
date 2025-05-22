@@ -24,6 +24,11 @@ export const $GenderField: FormFieldOperations<Gender, EnumInput<Gender>> = {
     });
   },
   create: (value: string): Result<GenderField, ValidationError[]> => {
+    // 空文字列の場合は特別なエラーを返す
+    if (!value) {
+      return failure([createValidationError("gender", ErrorCodes.REQUIRED)]);
+    }
+
     const result = $GenderField.schema().safeParse(value);
     if (!result.success) {
       return failure([createValidationError("gender", ErrorCodes.REQUIRED)]);
