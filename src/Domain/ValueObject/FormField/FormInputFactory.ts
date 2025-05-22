@@ -4,7 +4,7 @@ import { success, failure } from "../../Common/Result.ts";
 import type { ValidationError } from "../../Error/ValidationError.ts";
 import { createValidationError } from "../../Error/ValidationError.ts";
 import type { ErrorCode } from "../../Error/ErrorCodes.ts";
-import type { FormInput } from "./FormInput.ts";
+import type { FormSchema } from "./FormSchema.ts";
 
 /**
  * 基本的な入力値の型定義
@@ -35,10 +35,10 @@ export interface FormInputOperations<T, V = FormInputValueType> {
   schema: () => z.ZodType<T>;
 
   /** フォーム入力を作成する */
-  create: (value: V) => Result<FormInput<T>, ValidationError[]>;
+  create: (value: V) => Result<FormSchema<T>, ValidationError[]>;
 
   /** フォーム入力の値を取得する */
-  getValue: (input: FormInput<T>) => T;
+  getValue: (input: FormSchema<T>) => T;
 }
 
 /**
@@ -46,7 +46,7 @@ export interface FormInputOperations<T, V = FormInputValueType> {
  * @template I フォーム入力の型
  * @template V 検証前の入力値の型（オプション）
  */
-export type FormInputUtil<I extends FormInput<any>, V = FormInputValueType> = {
+export type FormInputUtil<I extends FormSchema<any>, V = FormInputValueType> = {
   /** バリデーションスキーマを取得する */
   schema: () => z.ZodType<I["value"]>;
 
@@ -105,7 +105,7 @@ export const createFormInputFactory = <T, V = T>(
    * @param value 入力値
    * @returns 成功した場合はフォーム入力オブジェクト、失敗した場合はバリデーションエラーの配列
    */
-  create: (value: V): Result<FormInput<T>, ValidationError[]> => {
+  create: (value: V): Result<FormSchema<T>, ValidationError[]> => {
     // 入力値を変換する関数が指定されている場合は変換
     const parsedValue = parseValue ? parseValue(value) : value;
 
@@ -126,5 +126,5 @@ export const createFormInputFactory = <T, V = T>(
    * @param input フォーム入力オブジェクト
    * @returns 入力値
    */
-  getValue: (input: FormInput<T>): T => input.value,
+  getValue: (input: FormSchema<T>): T => input.value,
 });
