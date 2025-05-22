@@ -1,13 +1,13 @@
 import { z } from "zod";
 import { ErrorCodes, type ErrorCode } from "../../Error/ErrorCodes";
-import type { FormInput } from "./FormInput";
-import { type FormInputUtil, type NumberInput } from "./FormInputFactory";
+import type { FormField } from "./FormField";
+import { type FormFieldUtil, type NumberField } from "./FormFieldFactory";
 import { success, failure } from "../../Common/Result";
 import { createValidationError } from "../../Error/ValidationError";
 
-export type AgeInput = FormInput<number>;
+export type AgeField = FormField<number>;
 
-export const $AgeInput: FormInputUtil<AgeInput, NumberInput> = {
+export const $AgeField: FormFieldUtil<AgeField, NumberField> = {
   schema: () => {
     return z
       .number()
@@ -23,7 +23,7 @@ export const $AgeInput: FormInputUtil<AgeInput, NumberInput> = {
         throw new Error(ErrorCodes.INVALID_FORMAT);
       }
 
-      const result = $AgeInput.schema().safeParse(numValue);
+      const result = $AgeField.schema().safeParse(numValue);
       if (!result.success) {
         return failure(
           result.error.errors.map((err: z.ZodIssue) => {
@@ -37,7 +37,7 @@ export const $AgeInput: FormInputUtil<AgeInput, NumberInput> = {
       return failure([createValidationError("age", ErrorCodes.INVALID_FORMAT)]);
     }
   },
-  getValue: (input: AgeInput): number => {
+  getValue: (input: AgeField): number => {
     return input.value;
   },
 };

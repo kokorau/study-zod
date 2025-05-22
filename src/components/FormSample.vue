@@ -198,6 +198,7 @@ import {
 } from "../Application/Service/FormService";
 import { match } from "../Domain/Common/Result";
 import type { RegistrationFormData } from "../Domain/ValueObject/FormObject/RegistrationForm";
+// UIコンポーネントではinput要素を使用するが、ドメインモデルではFieldを使用
 
 const formRepository = createFormRepository();
 

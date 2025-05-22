@@ -3,55 +3,55 @@ import type { Result } from '../../Common/Result';
 import { success, failure } from '../../Common/Result';
 import type { ValidationError } from '../../Error/ValidationError';
 
-import type { NameInput } from '../FormInput/NameInput';
-import { $NameInput } from '../FormInput/NameInput';
-import type { EmailInput } from '../FormInput/EmailInput';
-import { $EmailInput } from '../FormInput/EmailInput';
-import type { PasswordInput } from '../FormInput/PasswordInput';
-import { $PasswordInput } from '../FormInput/PasswordInput';
-import type { AgeInput } from '../FormInput/AgeInput';
-import { $AgeInput } from '../FormInput/AgeInput';
-import type { GenderInput } from '../FormInput/GenderInput';
-import { $GenderInput } from '../FormInput/GenderInput';
-import type { CountryInput } from '../FormInput/CountryInput';
-import { $CountryInput } from '../FormInput/CountryInput';
-import type { BioInput } from '../FormInput/BioInput';
-import { $BioInput } from '../FormInput/BioInput';
-import type { TermsAgreementInput } from '../FormInput/TermsAgreementInput';
-import { $TermsAgreementInput } from '../FormInput/TermsAgreementInput';
-import type { ExtractFormDataType } from '../FormInput/FormInputFactory';
+import type { NameField } from '../FormField/NameField';
+import { $NameField } from '../FormField/NameField';
+import type { EmailField } from '../FormField/EmailField';
+import { $EmailField } from '../FormField/EmailField';
+import type { PasswordField } from '../FormField/PasswordField';
+import { $PasswordField } from '../FormField/PasswordField';
+import type { AgeField } from '../FormField/AgeField';
+import { $AgeField } from '../FormField/AgeField';
+import type { GenderField } from '../FormField/GenderField';
+import { $GenderField } from '../FormField/GenderField';
+import type { CountryField } from '../FormField/CountryField';
+import { $CountryField } from '../FormField/CountryField';
+import type { BioField } from '../FormField/BioField';
+import { $BioField } from '../FormField/BioField';
+import type { TermsAgreementField } from '../FormField/TermsAgreementField';
+import { $TermsAgreementField } from '../FormField/TermsAgreementField';
+import type { ExtractFormDataType } from '../FormField/FormFieldFactory';
 
 /**
  * 登録フォームを表現するインターフェース
  */
 export interface RegistrationForm {
-  readonly name: NameInput;
-  readonly email: EmailInput;
-  readonly password: PasswordInput;
-  readonly age: AgeInput;
-  readonly gender: GenderInput;
-  readonly country: CountryInput;
-  readonly bio: BioInput;
-  readonly agreeTerms: TermsAgreementInput;
+  readonly name: NameField;
+  readonly email: EmailField;
+  readonly password: PasswordField;
+  readonly age: AgeField;
+  readonly gender: GenderField;
+  readonly country: CountryField;
+  readonly bio: BioField;
+  readonly agreeTerms: TermsAgreementField;
 }
 
 /**
  * 登録フォームの操作オブジェクトの型
  */
 export type RegistrationFormOperations = {
-  name: typeof $NameInput;
-  email: typeof $EmailInput;
-  password: typeof $PasswordInput;
-  age: typeof $AgeInput;
-  gender: typeof $GenderInput;
-  country: typeof $CountryInput;
-  bio: typeof $BioInput;
-  agreeTerms: typeof $TermsAgreementInput;
+  name: typeof $NameField;
+  email: typeof $EmailField;
+  password: typeof $PasswordField;
+  age: typeof $AgeField;
+  gender: typeof $GenderField;
+  country: typeof $CountryField;
+  bio: typeof $BioField;
+  agreeTerms: typeof $TermsAgreementField;
 };
 
 /**
  * 登録フォームの入力データ型
- * 各Inputのvalueプロパティの型から自動的に導出
+ * 各Fieldのvalueプロパティの型から自動的に導出
  * テストとの互換性のためにstring型も許容
  */
 export type RegistrationFormData = ExtractFormDataType<RegistrationFormOperations>;
@@ -65,14 +65,14 @@ export const $RegistrationForm = {
    * @returns Zodスキーマ
    */
   schema: () => z.object({
-    name: $NameInput.schema(),
-    email: $EmailInput.schema(),
-    password: $PasswordInput.schema(),
-    age: $AgeInput.schema(),
-    gender: $GenderInput.schema(),
-    country: $CountryInput.schema(),
-    bio: $BioInput.schema(),
-    agreeTerms: $TermsAgreementInput.schema()
+    name: $NameField.schema(),
+    email: $EmailField.schema(),
+    password: $PasswordField.schema(),
+    age: $AgeField.schema(),
+    gender: $GenderField.schema(),
+    country: $CountryField.schema(),
+    bio: $BioField.schema(),
+    agreeTerms: $TermsAgreementField.schema()
   }),
   
   /**
@@ -82,14 +82,14 @@ export const $RegistrationForm = {
    */
   create: (data: RegistrationFormData): Result<RegistrationForm, ValidationError[]> => {
     // 各フィールドを個別に検証
-    const nameResult = $NameInput.create(data.name);
-    const emailResult = $EmailInput.create(data.email);
-    const passwordResult = $PasswordInput.create(data.password);
-    const ageResult = $AgeInput.create(data.age);
-    const genderResult = $GenderInput.create(data.gender);
-    const countryResult = $CountryInput.create(data.country);
-    const bioResult = $BioInput.create(data.bio);
-    const agreeTermsResult = $TermsAgreementInput.create(data.agreeTerms);
+    const nameResult = $NameField.create(data.name);
+    const emailResult = $EmailField.create(data.email);
+    const passwordResult = $PasswordField.create(data.password);
+    const ageResult = $AgeField.create(data.age);
+    const genderResult = $GenderField.create(data.gender);
+    const countryResult = $CountryField.create(data.country);
+    const bioResult = $BioField.create(data.bio);
+    const agreeTermsResult = $TermsAgreementField.create(data.agreeTerms);
     
     // すべてのエラーを収集
     const errors: ValidationError[] = [];
@@ -126,13 +126,13 @@ export const $RegistrationForm = {
    * @returns DTOオブジェクト
    */
   toDTO: (form: RegistrationForm) => ({
-    name: $NameInput.getValue(form.name),
-    email: $EmailInput.getValue(form.email),
-    password: $PasswordInput.getValue(form.password),
-    age: $AgeInput.getValue(form.age),
-    gender: $GenderInput.getValue(form.gender),
-    country: $CountryInput.getValue(form.country),
-    bio: $BioInput.getValue(form.bio),
-    agreeTerms: $TermsAgreementInput.getValue(form.agreeTerms)
+    name: $NameField.getValue(form.name),
+    email: $EmailField.getValue(form.email),
+    password: $PasswordField.getValue(form.password),
+    age: $AgeField.getValue(form.age),
+    gender: $GenderField.getValue(form.gender),
+    country: $CountryField.getValue(form.country),
+    bio: $BioField.getValue(form.bio),
+    agreeTerms: $TermsAgreementField.getValue(form.agreeTerms)
   })
 };

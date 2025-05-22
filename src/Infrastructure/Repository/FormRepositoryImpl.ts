@@ -4,6 +4,7 @@ import { $RegistrationForm } from '../../Domain/ValueObject/FormObject/Registrat
 import type { Result } from '../../Domain/Common/Result';
 import { success, failure } from '../../Domain/Common/Result';
 import type { ValidationError } from '../../Domain/Error/ValidationError';
+// FormInputからFormFieldに変更
 
 /**
  * フォームリポジトリの実装

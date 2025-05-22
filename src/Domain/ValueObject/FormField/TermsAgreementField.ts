@@ -1,15 +1,15 @@
 import { z } from "zod";
 import { ErrorCodes } from "../../Error/ErrorCodes";
-import type { FormInput } from "./FormInput";
-import { type FormInputUtil, type BooleanInput } from "./FormInputFactory";
+import type { FormField } from "./FormField";
+import { type FormFieldUtil, type BooleanField } from "./FormFieldFactory";
 import { success, failure } from "../../Common/Result";
 import { createValidationError } from "../../Error/ValidationError";
 
-export type TermsAgreementInput = FormInput<boolean>;
+export type TermsAgreementField = FormField<boolean>;
 
-export const $TermsAgreementInput: FormInputUtil<
-  TermsAgreementInput,
-  BooleanInput
+export const $TermsAgreementField: FormFieldUtil<
+  TermsAgreementField,
+  BooleanField
 > = {
   schema: () => {
     return z.boolean().refine((val) => val === true, {
@@ -22,7 +22,7 @@ export const $TermsAgreementInput: FormInputUtil<
         ? value === "true" || value === "on" || value === "1"
         : !!value;
 
-    const result = $TermsAgreementInput.schema().safeParse(boolValue);
+    const result = $TermsAgreementField.schema().safeParse(boolValue);
     if (!result.success) {
       return failure([
         createValidationError("agreeTerms", ErrorCodes.REQUIRED),
@@ -30,7 +30,7 @@ export const $TermsAgreementInput: FormInputUtil<
     }
     return success({ value: result.data });
   },
-  getValue: (input: TermsAgreementInput): boolean => {
+  getValue: (input: TermsAgreementField): boolean => {
     return input.value;
   },
 };

@@ -5,6 +5,7 @@ import type { Result } from "../../Domain/Common/Result";
 import { failure } from "../../Domain/Common/Result";
 import type { ValidationError } from "../../Domain/Error/ValidationError";
 import { createFormRepository } from "../../Infrastructure/Repository/FormRepositoryImpl";
+// FormInputからFormFieldに変更
 
 /**
  * フォーム送信ユースケースのインターフェース

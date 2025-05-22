@@ -9,6 +9,7 @@ import { success, failure, match } from "../../Domain/Common/Result";
 import type { ValidationError } from "../../Domain/Error/ValidationError";
 import { getLocaleMessages } from "../Locale/FormMessages";
 import { createFormRepository } from "../../Infrastructure/Repository/FormRepositoryImpl";
+// FormInputからFormFieldに変更
 
 /**
  * バリデーションエラーをローカライズする

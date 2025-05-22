@@ -1,44 +1,48 @@
 import { describe, test, expect } from "vitest";
-import { $EmailInput } from "./EmailInput";
-import { ErrorCodes } from "../../../Domain/Error/ErrorCodes";
-import type { ValidationError } from "../../../Domain/Error/ValidationError";
-import type { Success, Failure } from "../../../Domain/Common/Result";
+import { $EmailField } from "./EmailField.ts";
+import { ErrorCodes } from "../../Error/ErrorCodes.ts";
+import type { ValidationError } from "../../Error/ValidationError.ts";
+import type { Success, Failure } from "../../Common/Result.ts";
 
-describe("EmailInput", () => {
-  test("creates a valid EmailInput with valid email", () => {
-    const result = $EmailInput.create("test@example.com");
+describe("EmailField", () => {
+  test("creates a valid EmailField with valid email", () => {
+    const result = $EmailField.create("test@example.com");
     expect(result._tag).toBe("success");
-    
+
     if (result._tag === "success") {
       const emailInput = (result as Success<any>).value;
-      expect($EmailInput.getValue(emailInput)).toBe("test@example.com");
+      expect($EmailField.getValue(emailInput)).toBe("test@example.com");
     }
   });
-  
+
   test("rejects empty string with validation errors", () => {
-    const result = $EmailInput.create("");
+    const result = $EmailField.create("");
     expect(result._tag).toBe("failure");
-    
+
     if (result._tag === "failure") {
       const errors = (result as Failure<any>).error;
       expect(errors.length).toBe(2); // 空の文字列は2つのエラーを返す
-      
+
       // REQUIREDエラーが含まれていることを確認
-      const requiredError = errors.find((e: ValidationError) => e.code === ErrorCodes.REQUIRED);
+      const requiredError = errors.find(
+        (e: ValidationError) => e.code === ErrorCodes.REQUIRED,
+      );
       expect(requiredError).toBeDefined();
       expect(requiredError?.field).toBe("email");
-      
+
       // INVALID_FORMATエラーが含まれていることを確認
-      const formatError = errors.find((e: ValidationError) => e.code === ErrorCodes.INVALID_FORMAT);
+      const formatError = errors.find(
+        (e: ValidationError) => e.code === ErrorCodes.INVALID_FORMAT,
+      );
       expect(formatError).toBeDefined();
       expect(formatError?.field).toBe("email");
     }
   });
-  
+
   test("rejects invalid email format with INVALID_FORMAT error code", () => {
-    const result = $EmailInput.create("invalid-email");
+    const result = $EmailField.create("invalid-email");
     expect(result._tag).toBe("failure");
-    
+
     if (result._tag === "failure") {
       const errors = (result as Failure<any>).error;
       expect(errors.length).toBe(1);
@@ -46,13 +50,13 @@ describe("EmailInput", () => {
       expect(errors[0].code).toBe(ErrorCodes.INVALID_FORMAT);
     }
   });
-  
+
   test("getValue returns the email value", () => {
-    const result = $EmailInput.create("test@example.com");
-    
+    const result = $EmailField.create("test@example.com");
+
     if (result._tag === "success") {
       const emailInput = (result as Success<any>).value;
-      expect($EmailInput.getValue(emailInput)).toBe("test@example.com");
+      expect($EmailField.getValue(emailInput)).toBe("test@example.com");
     }
   });
 });

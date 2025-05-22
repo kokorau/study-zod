@@ -4,8 +4,8 @@ import { success, failure } from "../../Common/Result";
 import type { ValidationError } from "../../Error/ValidationError";
 import { createValidationError } from "../../Error/ValidationError";
 import { ErrorCodes } from "../../Error/ErrorCodes";
-import type { FormInput } from "./FormInput";
-import type { FormInputUtil, EnumInput } from "./FormInputFactory";
+import type { FormField } from "./FormField";
+import type { FormFieldUtil, EnumField } from "./FormFieldFactory";
 
 export const CountryEnum = {
   JAPAN: "jp",
@@ -15,23 +15,23 @@ export const CountryEnum = {
 
 export type Country = "jp" | "us" | "uk";
 
-export type CountryInput = FormInput<Country>;
+export type CountryField = FormField<Country>;
 
-export const $CountryInput: FormInputUtil<CountryInput, EnumInput<Country>> = {
+export const $CountryField: FormFieldUtil<CountryField, EnumField<Country>> = {
   schema: () =>
     z.enum([CountryEnum.JAPAN, CountryEnum.USA, CountryEnum.UK], {
       errorMap: () => ({ message: ErrorCodes.REQUIRED }),
     }),
-  create: (value: string): Result<CountryInput, ValidationError[]> => {
+  create: (value: string): Result<CountryField, ValidationError[]> => {
     if (!value) {
       return failure([createValidationError("country", ErrorCodes.REQUIRED)]);
     }
 
-    const result = $CountryInput.schema().safeParse(value);
+    const result = $CountryField.schema().safeParse(value);
     if (!result.success) {
       return failure([createValidationError("country", ErrorCodes.INVALID)]);
     }
     return success({ value: result.data });
   },
-  getValue: (input: CountryInput): Country => input.value,
+  getValue: (input: CountryField): Country => input.value,
 };

@@ -1,16 +1,16 @@
 import { z } from "zod";
 import { ErrorCodes } from "../../Error/ErrorCodes";
-import type { FormInput } from "./FormInput";
+import type { FormField } from "./FormField";
 import {
-  createFormInputFactory,
-  type FormInputUtil,
-  type StringInput,
-} from "./FormInputFactory";
+  createFormFieldFactory,
+  type FormFieldUtil,
+  type StringField,
+} from "./FormFieldFactory";
 
-export type PasswordInput = FormInput<string>;
+export type PasswordField = FormField<string>;
 
-export const $PasswordInput: FormInputUtil<PasswordInput, StringInput> =
-  createFormInputFactory<string, string>(() => {
+export const $PasswordField: FormFieldUtil<PasswordField, StringField> =
+  createFormFieldFactory<string, string>(() => {
     return z
       .string()
       .min(1, { message: ErrorCodes.REQUIRED })
