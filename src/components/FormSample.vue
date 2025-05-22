@@ -183,21 +183,12 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { createFormRepository } from "../Infrastructure/Repository/FormRepositoryImpl";
-import { createFormService } from "../Application/Service/FormService";
-import { createSubmitFormUseCase } from "../Application/UseCase/SubmitFormUseCase";
+import { validateForm, submitForm as submitFormService } from "../Application/Service/FormService";
 import { match } from "../Domain/Common/Result";
 import type { RegistrationFormData } from "../Domain/ValueObject/FormObject/RegistrationForm";
 
-// リポジトリの初期化
 const formRepository = createFormRepository();
 
-// サービスの初期化
-const formService = createFormService(formRepository, "JP");
-
-// ユースケースの初期化
-const submitFormUseCase = createSubmitFormUseCase(formRepository);
-
-// フォームの状態
 const formData = reactive<RegistrationFormData>({
   name: "",
   email: "",
@@ -224,7 +215,7 @@ const handleSubmit = async () => {
   submitMessage.value = "";
 
   // フォームの検証
-  const validationResult = formService.validate(formData);
+  const validationResult = validateForm(formData, formRepository, "JP");
 
   match(
     validationResult,
@@ -233,8 +224,8 @@ const handleSubmit = async () => {
       isSubmitting.value = true;
 
       try {
-        // ユースケースを使用してフォームを送信
-        const submitResult = await submitFormUseCase.execute(formData);
+        // フォームを送信
+        const submitResult = await submitFormService(formData, formRepository, "JP");
 
         match(
           submitResult,

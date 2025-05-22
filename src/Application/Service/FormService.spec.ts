@@ -1,5 +1,5 @@
 import { describe, test, expect, vi, beforeEach } from "vitest";
-import { createFormService } from "./FormService";
+import { createFormService, validateForm, submitForm } from "./FormService";
 import { success, failure } from "../../Domain/Common/Result";
 import { ErrorCodes } from "../../Domain/Error/ErrorCodes";
 import { createValidationError } from "../../Domain/Error/ValidationError";
@@ -132,6 +132,138 @@ describe("FormService", () => {
     
     const service = createFormService(mockRepository);
     const result = await service.submitForm(validFormData);
+    
+    expect(result._tag).toBe("failure");
+    expect(mockRepository.validate).toHaveBeenCalledWith(validFormData);
+    expect(mockRepository.submit).toHaveBeenCalled();
+    
+    if (result._tag === "failure") {
+      expect(typeof result.error).toBe("string");
+      expect(result.error).toContain("送信エラー");
+    }
+  });
+});
+
+describe("validateForm function", () => {
+  // モックリポジトリ
+  const mockRepository = {
+    getFormSchema: vi.fn(),
+    validate: vi.fn(),
+    submit: vi.fn()
+  };
+  
+  // テスト用のフォームデータ
+  const validFormData = {
+    name: "山田太郎",
+    email: "test@example.com",
+    password: "Password123",
+    age: 30,
+    gender: "male",
+    country: "jp",
+    bio: "自己紹介",
+    agreeTerms: true
+  };
+  
+  beforeEach(() => {
+    // モックをリセット
+    vi.resetAllMocks();
+    
+    // デフォルトのモック実装
+    mockRepository.getFormSchema.mockReturnValue({});
+    mockRepository.validate.mockReturnValue(success(undefined));
+    mockRepository.submit.mockResolvedValue(success(undefined));
+  });
+  
+  test("returns success for valid data", () => {
+    mockRepository.validate.mockReturnValue(success(undefined));
+    
+    const result = validateForm(validFormData, mockRepository, "JP");
+    
+    expect(result._tag).toBe("success");
+    expect(mockRepository.validate).toHaveBeenCalledWith(validFormData);
+  });
+  
+  test("returns localized error messages for invalid data", () => {
+    mockRepository.validate.mockReturnValue(failure([
+      createValidationError("name", ErrorCodes.REQUIRED),
+      createValidationError("email", ErrorCodes.INVALID_FORMAT)
+    ]));
+    
+    const result = validateForm(validFormData, mockRepository, "JP");
+    
+    expect(result._tag).toBe("failure");
+    
+    if (result._tag === "failure") {
+      expect(result.error.name).toBeDefined();
+      expect(result.error.email).toBeDefined();
+      expect(typeof result.error.name).toBe("string");
+      expect(typeof result.error.email).toBe("string");
+    }
+  });
+});
+
+describe("submitForm function", () => {
+  // モックリポジトリ
+  const mockRepository = {
+    getFormSchema: vi.fn(),
+    validate: vi.fn(),
+    submit: vi.fn()
+  };
+  
+  // テスト用のフォームデータ
+  const validFormData = {
+    name: "山田太郎",
+    email: "test@example.com",
+    password: "Password123",
+    age: 30,
+    gender: "male",
+    country: "jp",
+    bio: "自己紹介",
+    agreeTerms: true
+  };
+  
+  beforeEach(() => {
+    // モックをリセット
+    vi.resetAllMocks();
+    
+    // デフォルトのモック実装
+    mockRepository.getFormSchema.mockReturnValue({});
+    mockRepository.validate.mockReturnValue(success(undefined));
+    mockRepository.submit.mockResolvedValue(success(undefined));
+  });
+  
+  test("validates and submits valid form data", async () => {
+    mockRepository.validate.mockReturnValue(success(undefined));
+    mockRepository.submit.mockResolvedValue(success(undefined));
+    
+    const result = await submitForm(validFormData, mockRepository, "JP");
+    
+    expect(result._tag).toBe("success");
+    expect(mockRepository.validate).toHaveBeenCalledWith(validFormData);
+    expect(mockRepository.submit).toHaveBeenCalled();
+  });
+  
+  test("returns error for invalid form data", async () => {
+    mockRepository.validate.mockReturnValue(failure([
+      createValidationError("name", ErrorCodes.REQUIRED)
+    ]));
+    
+    const result = await submitForm(validFormData, mockRepository, "JP");
+    
+    expect(result._tag).toBe("failure");
+    expect(mockRepository.validate).toHaveBeenCalledWith(validFormData);
+    expect(mockRepository.submit).not.toHaveBeenCalled();
+    
+    if (result._tag === "failure") {
+      expect(typeof result.error).toBe("string");
+    }
+  });
+  
+  test("handles submission errors", async () => {
+    mockRepository.validate.mockReturnValue(success(undefined));
+    mockRepository.submit.mockResolvedValue(failure(new Error("Submission error")));
+    
+    const result = await submitForm(validFormData, mockRepository, "JP");
     
     expect(result._tag).toBe("failure");
     expect(mockRepository.validate).toHaveBeenCalledWith(validFormData);
