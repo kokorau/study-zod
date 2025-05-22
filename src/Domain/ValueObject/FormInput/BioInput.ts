@@ -34,7 +34,4 @@ export const $BioInput: FormInputUtil<BioInput, OptionalInput<StringInput>> = {
   getValue: (input: BioInput): string => {
     return input.value;
   },
-  hasValue: (input: BioInput): boolean => {
-    return !!input.value.trim();
-  },
 };

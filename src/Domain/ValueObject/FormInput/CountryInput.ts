@@ -34,16 +34,4 @@ export const $CountryInput: FormInputUtil<CountryInput, EnumInput<Country>> = {
     return success({ value: result.data });
   },
   getValue: (input: CountryInput): Country => input.value,
-  getDisplayName: (country: Country): string => {
-    switch (country) {
-      case CountryEnum.JAPAN:
-        return "日本";
-      case CountryEnum.USA:
-        return "アメリカ";
-      case CountryEnum.UK:
-        return "イギリス";
-      default:
-        return "不明";
-    }
-  },
 };

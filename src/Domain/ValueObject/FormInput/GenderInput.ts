@@ -32,14 +32,4 @@ export const $GenderInput: FormInputUtil<GenderInput, EnumInput<Gender>> = {
   getValue: (input: GenderInput): Gender => {
     return input.value;
   },
-  getDisplayName: (gender: Gender): string => {
-    switch (gender) {
-      case GenderEnum.MALE:
-        return "男性";
-      case GenderEnum.FEMALE:
-        return "女性";
-      default:
-        return "不明";
-    }
-  },
 };
