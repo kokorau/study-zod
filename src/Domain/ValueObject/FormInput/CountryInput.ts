@@ -27,6 +27,15 @@ export type Country = 'jp' | 'us' | 'uk';
 export type CountryInput = FormInput<Country>;
 
 /**
+ * 国籍入力のバリデーションエラーメッセージを作成する
+ */
+const createCountryRequiredError = () => 
+  createValidationError('country', ErrorCodes.REQUIRED);
+
+const createCountryInvalidError = () => 
+  createValidationError('country', ErrorCodes.INVALID);
+
+/**
  * 国籍入力に関する操作を提供するオブジェクト
  */
 export const $CountryInput: FormInputUtil<CountryInput, EnumInput<Country>> = {
@@ -45,16 +54,12 @@ export const $CountryInput: FormInputUtil<CountryInput, EnumInput<Country>> = {
    */
   create: (value: string): Result<CountryInput, ValidationError[]> => {
     if (!value) {
-      return failure([
-        createValidationError('country', ErrorCodes.REQUIRED)
-      ]);
+      return failure([createCountryRequiredError()]);
     }
     
     const result = $CountryInput.schema().safeParse(value);
     if (!result.success) {
-      return failure([
-        createValidationError('country', ErrorCodes.INVALID)
-      ]);
+      return failure([createCountryInvalidError()]);
     }
     return success({ value: result.data });
   },

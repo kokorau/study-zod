@@ -1,20 +1,14 @@
 import { z } from 'zod';
-import { ErrorCodes } from '../../Error/ErrorCodes';
+import { ErrorCodes, type ErrorCode } from '../../Error/ErrorCodes';
 import type { FormInput } from './FormInput';
-import { createFormInputFactory, type FormInputUtil, type StringInput, type OptionalInput } from './FormInputFactory';
+import { type FormInputUtil, type StringInput, type OptionalInput } from './FormInputFactory';
+import { success, failure } from '../../Common/Result';
+import { createValidationError } from '../../Error/ValidationError';
 
 /**
  * 自己紹介入力を表現する型
  */
 export type BioInput = FormInput<string>;
-
-/**
- * 自己紹介入力のバリデーションスキーマを定義
- */
-const bioSchema = () => z.string()
-  .max(1000, {
-    message: ErrorCodes.TOO_LONG
-  });
 
 /**
  * 自己紹介入力に関する操作を提供するオブジェクト
@@ -24,7 +18,10 @@ export const $BioInput: FormInputUtil<BioInput, OptionalInput<StringInput>> = {
    * 自己紹介入力のバリデーションスキーマを取得する
    * @returns Zodスキーマ
    */
-  schema: () => bioSchema(),
+  schema: () => z.string()
+    .max(1000, {
+      message: ErrorCodes.TOO_LONG
+    }),
   
   /**
    * 自己紹介入力を作成する
@@ -34,10 +31,18 @@ export const $BioInput: FormInputUtil<BioInput, OptionalInput<StringInput>> = {
   create: (value?: string) => {
     // 未入力の場合は空文字列に変換
     const normalizedValue = value || '';
-    return createFormInputFactory<string, string>(
-      bioSchema,
-      'bio'
-    ).create(normalizedValue);
+    
+    // バリデーション実行
+    const result = $BioInput.schema().safeParse(normalizedValue);
+    if (!result.success) {
+      return failure(
+        result.error.errors.map((err: z.ZodIssue) => {
+          const code = err.message as ErrorCode;
+          return createValidationError('bio', code);
+        })
+      );
+    }
+    return success({ value: result.data });
   },
   
   /**

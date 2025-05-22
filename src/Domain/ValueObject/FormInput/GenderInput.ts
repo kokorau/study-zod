@@ -26,11 +26,10 @@ export type Gender = 'male' | 'female';
 export type GenderInput = FormInput<Gender>;
 
 /**
- * 性別入力のバリデーションスキーマを定義
+ * 性別入力のバリデーションエラーメッセージを作成する
  */
-const genderSchema = () => z.enum([GenderEnum.MALE, GenderEnum.FEMALE], {
-  errorMap: () => ({ message: ErrorCodes.REQUIRED })
-});
+const createGenderValidationError = () => 
+  createValidationError('gender', ErrorCodes.REQUIRED);
 
 /**
  * 性別入力に関する操作を提供するオブジェクト
@@ -40,7 +39,9 @@ export const $GenderInput: FormInputUtil<GenderInput, EnumInput<Gender>> = {
    * 性別入力のバリデーションスキーマを取得する
    * @returns Zodスキーマ
    */
-  schema: () => genderSchema(),
+  schema: () => z.enum([GenderEnum.MALE, GenderEnum.FEMALE], {
+    errorMap: () => ({ message: ErrorCodes.REQUIRED })
+  }),
   
   /**
    * 性別入力を作成する
@@ -48,11 +49,9 @@ export const $GenderInput: FormInputUtil<GenderInput, EnumInput<Gender>> = {
    * @returns 成功した場合はGenderInputオブジェクト、失敗した場合はバリデーションエラーの配列
    */
   create: (value: string): Result<GenderInput, ValidationError[]> => {
-    const result = genderSchema().safeParse(value);
+    const result = $GenderInput.schema().safeParse(value);
     if (!result.success) {
-      return failure([
-        createValidationError('gender', ErrorCodes.REQUIRED)
-      ]);
+      return failure([createGenderValidationError()]);
     }
     return success({ value: result.data });
   },
