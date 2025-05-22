@@ -1,12 +1,12 @@
 import { z } from "zod";
 import { ErrorCodes } from "../../Error/ErrorCodes";
 import type { FormField } from "./FormField";
-import { createFormFieldFactory, type FormFieldUtil } from "./FormFieldFactory";
+import { createFormFieldFactory, type FormFieldOperations } from "./FormFieldFactory";
 import type { StringInput } from "../InputType/InputType.ts";
 
 export type PasswordField = FormField<string>;
 
-export const $PasswordField: FormFieldUtil<PasswordField, StringInput> =
+export const $PasswordField: FormFieldOperations<string, StringInput> =
   createFormFieldFactory<string, string>(() => {
     return z
       .string()
