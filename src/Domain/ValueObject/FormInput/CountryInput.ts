@@ -4,6 +4,8 @@ import { success, failure } from '../../Common/Result';
 import type { ValidationError } from '../../Error/ValidationError';
 import { createValidationError } from '../../Error/ValidationError';
 import { ErrorCodes } from '../../Error/ErrorCodes';
+import type { FormInput } from './FormInput';
+import type { FormInputUtil, EnumInput } from './FormInputFactory';
 
 /**
  * 国籍の列挙型
@@ -17,19 +19,17 @@ export const CountryEnum = {
 /**
  * 国籍の型（リテラル型のユニオン）
  */
-export type Country = typeof CountryEnum[keyof typeof CountryEnum];
+export type Country = 'jp' | 'us' | 'uk';
 
 /**
- * 国籍入力を表現するインターフェース
+ * 国籍入力を表現する型
  */
-export interface CountryInput {
-  readonly value: Country;
-}
+export type CountryInput = FormInput<Country>;
 
 /**
  * 国籍入力に関する操作を提供するオブジェクト
  */
-export const $CountryInput = {
+export const $CountryInput: FormInputUtil<CountryInput, EnumInput<Country>> = {
   /**
    * 国籍入力のバリデーションスキーマを取得する
    * @returns Zodスキーマ

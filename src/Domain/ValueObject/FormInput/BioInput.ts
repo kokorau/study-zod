@@ -1,48 +1,43 @@
 import { z } from 'zod';
-import type { Result } from '../../Common/Result';
-import { success, failure } from '../../Common/Result';
-import type { ValidationError } from '../../Error/ValidationError';
-import { createValidationError } from '../../Error/ValidationError';
-import { ErrorCodes, type ErrorCode } from '../../Error/ErrorCodes';
+import { ErrorCodes } from '../../Error/ErrorCodes';
+import type { FormInput } from './FormInput';
+import { createFormInputFactory, type FormInputUtil, type StringInput, type OptionalInput } from './FormInputFactory';
 
 /**
- * 自己紹介入力を表現するインターフェース
+ * 自己紹介入力を表現する型
  */
-export interface BioInput {
-  readonly value: string;
-}
+export type BioInput = FormInput<string>;
+
+/**
+ * 自己紹介入力のバリデーションスキーマを定義
+ */
+const bioSchema = () => z.string()
+  .max(1000, {
+    message: ErrorCodes.TOO_LONG
+  });
 
 /**
  * 自己紹介入力に関する操作を提供するオブジェクト
  */
-export const $BioInput = {
+export const $BioInput: FormInputUtil<BioInput, OptionalInput<StringInput>> = {
   /**
    * 自己紹介入力のバリデーションスキーマを取得する
    * @returns Zodスキーマ
    */
-  schema: () => z.string()
-    .max(1000, {
-      message: ErrorCodes.TOO_LONG
-    })
-    .optional()
-    .transform(val => val || ''), // 未入力の場合は空文字列に変換
+  schema: () => bioSchema(),
   
   /**
    * 自己紹介入力を作成する
    * @param value 入力値
    * @returns 成功した場合はBioInputオブジェクト、失敗した場合はバリデーションエラーの配列
    */
-  create: (value?: string): Result<BioInput, ValidationError[]> => {
-    const result = $BioInput.schema().safeParse(value);
-    if (!result.success) {
-      return failure(
-        result.error.errors.map(err => {
-          const code = err.message as ErrorCode;
-          return createValidationError('bio', code);
-        })
-      );
-    }
-    return success({ value: result.data });
+  create: (value?: string) => {
+    // 未入力の場合は空文字列に変換
+    const normalizedValue = value || '';
+    return createFormInputFactory<string, string>(
+      bioSchema,
+      'bio'
+    ).create(normalizedValue);
   },
   
   /**

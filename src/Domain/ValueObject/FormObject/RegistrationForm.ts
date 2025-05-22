@@ -19,6 +19,7 @@ import type { BioInput } from '../FormInput/BioInput';
 import { $BioInput } from '../FormInput/BioInput';
 import type { TermsAgreementInput } from '../FormInput/TermsAgreementInput';
 import { $TermsAgreementInput } from '../FormInput/TermsAgreementInput';
+import type { ExtractFormDataType } from '../FormInput/FormInputFactory';
 
 /**
  * 登録フォームを表現するインターフェース
@@ -35,18 +36,25 @@ export interface RegistrationForm {
 }
 
 /**
- * 登録フォームの入力データ型
+ * 登録フォームの操作オブジェクトの型
  */
-export interface RegistrationFormData {
-  name: string;
-  email: string;
-  password: string;
-  age: number | string;
-  gender: string;
-  country: string;
-  bio?: string;
-  agreeTerms: boolean | string;
-}
+export type RegistrationFormOperations = {
+  name: typeof $NameInput;
+  email: typeof $EmailInput;
+  password: typeof $PasswordInput;
+  age: typeof $AgeInput;
+  gender: typeof $GenderInput;
+  country: typeof $CountryInput;
+  bio: typeof $BioInput;
+  agreeTerms: typeof $TermsAgreementInput;
+};
+
+/**
+ * 登録フォームの入力データ型
+ * 各Inputのvalueプロパティの型から自動的に導出
+ * テストとの互換性のためにstring型も許容
+ */
+export type RegistrationFormData = ExtractFormDataType<RegistrationFormOperations>;
 
 /**
  * 登録フォームに関する操作を提供するオブジェクト
