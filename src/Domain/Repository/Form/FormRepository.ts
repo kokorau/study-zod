@@ -1,7 +1,7 @@
-import type { z } from 'zod';
-import type { Result } from '../ValueObject/Result/Result';
-import type { ValidationError } from '../ValueObject/Error/ValidationError';
-import type { RegistrationForm } from '../ValueObject/FormObject/RegistrationForm';
+import type { z } from "zod";
+import type { Result } from "../../ValueObject/Result/Result.ts";
+import type { ValidationError } from "../../ValueObject/Error/ValidationError.ts";
+import type { RegistrationForm } from "../../ValueObject/FormObject/RegistrationForm.ts";
 
 /**
  * フォームリポジトリのインターフェース
@@ -13,14 +13,14 @@ export interface FormRepository {
    * @returns Zodスキーマオブジェクト
    */
   getFormSchema(): z.ZodObject<any>;
-  
+
   /**
    * フォームデータを検証する
    * @param data 検証するデータ
    * @returns 検証結果。成功した場合は void、失敗した場合はバリデーションエラーの配列
    */
   validate(data: any): Result<void, ValidationError[]>;
-  
+
   /**
    * フォームを送信する
    * @param form 送信するフォームオブジェクト

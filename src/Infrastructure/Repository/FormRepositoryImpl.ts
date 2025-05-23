@@ -1,9 +1,9 @@
-import type { FormRepository } from '../../Domain/Repository/FormRepository';
-import type { RegistrationForm } from '../../Domain/ValueObject/FormObject/RegistrationForm';
-import { $RegistrationForm } from '../../Domain/ValueObject/FormObject/RegistrationForm';
-import type { Result } from '../../Domain/ValueObject/Result/Result';
-import { success, failure } from '../../Domain/ValueObject/Result/Result';
-import type { ValidationError } from '../../Domain/ValueObject/Error/ValidationError';
+import type { FormRepository } from "../../Domain/Repository/Form/FormRepository.ts";
+import type { RegistrationForm } from "../../Domain/ValueObject/FormObject/RegistrationForm";
+import { $RegistrationForm } from "../../Domain/ValueObject/FormObject/RegistrationForm";
+import type { Result } from "../../Domain/ValueObject/Result/Result";
+import { success, failure } from "../../Domain/ValueObject/Result/Result";
+import type { ValidationError } from "../../Domain/ValueObject/Error/ValidationError";
 // FormInputからFormFieldに変更
 
 /**
@@ -19,7 +19,7 @@ export const createFormRepository = (): FormRepository => {
     getFormSchema: () => {
       return $RegistrationForm.schema();
     },
-    
+
     /**
      * フォームデータを検証する
      * @param data 検証するデータ
@@ -27,12 +27,12 @@ export const createFormRepository = (): FormRepository => {
      */
     validate: (data: any): Result<void, ValidationError[]> => {
       const formResult = $RegistrationForm.create(data);
-      if (formResult._tag === 'failure') {
+      if (formResult._tag === "failure") {
         return formResult as Result<any, ValidationError[]>;
       }
       return success(undefined);
     },
-    
+
     /**
      * フォームを送信する
      * @param form 送信するフォームオブジェクト
@@ -41,21 +41,23 @@ export const createFormRepository = (): FormRepository => {
     submit: async (form: RegistrationForm): Promise<Result<void, Error>> => {
       try {
         // API送信をシミュレート
-        console.log('フォーム送信:', $RegistrationForm.toDTO(form));
-        
+        console.log("フォーム送信:", $RegistrationForm.toDTO(form));
+
         // 実際のAPIリクエストはここに実装する
         // 例: const response = await fetch('/api/register', {
         //   method: 'POST',
         //   headers: { 'Content-Type': 'application/json' },
         //   body: JSON.stringify($RegistrationForm.toDTO(form))
         // });
-        
+
         // 成功を返す
         return success(undefined);
       } catch (error) {
         // エラーを返す
-        return failure(error instanceof Error ? error : new Error('Unknown error'));
+        return failure(
+          error instanceof Error ? error : new Error("Unknown error"),
+        );
       }
-    }
+    },
   };
 };

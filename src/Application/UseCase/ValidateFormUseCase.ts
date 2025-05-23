@@ -1,7 +1,11 @@
-import type { FormRepository } from "../../Domain/Repository/FormRepository";
+import type { FormRepository } from "../../Domain/Repository/Form/FormRepository.ts";
 import type { RegistrationFormData } from "../../Domain/ValueObject/FormObject/RegistrationForm";
 import type { Result } from "../../Domain/ValueObject/Result/Result";
-import { success, failure, match } from "../../Domain/ValueObject/Result/Result";
+import {
+  success,
+  failure,
+  match,
+} from "../../Domain/ValueObject/Result/Result";
 import type { ValidationError } from "../../Domain/ValueObject/Error/ValidationError";
 import { createFormRepository } from "../../Infrastructure/Repository/FormRepositoryImpl";
 import { localizeErrors } from "./LocalizeErrorsUseCase";
@@ -28,15 +32,11 @@ export interface ValidateFormUseCase {
 export const validateForm = (
   data: RegistrationFormData,
   repository: FormRepository = createFormRepository(),
-  locale: "JP" | "EN" = "JP"
+  locale: "JP" | "EN" = "JP",
 ): Result<void, Record<string, string>> => {
   const result = repository.validate(data);
 
-  return match<
-    void,
-    ValidationError[],
-    Result<void, Record<string, string>>
-  >(
+  return match<void, ValidationError[], Result<void, Record<string, string>>>(
     result,
     () => success(undefined),
     (errors) => failure(localizeErrors(errors, locale)),
@@ -51,9 +51,10 @@ export const validateForm = (
  */
 export const createValidateFormUseCase = (
   repository: FormRepository = createFormRepository(),
-  locale: "JP" | "EN" = "JP"
+  locale: "JP" | "EN" = "JP",
 ): ValidateFormUseCase => {
   return {
-    execute: (data: RegistrationFormData) => validateForm(data, repository, locale)
+    execute: (data: RegistrationFormData) =>
+      validateForm(data, repository, locale),
   };
 };

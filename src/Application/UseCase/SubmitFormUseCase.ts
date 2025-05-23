@@ -1,4 +1,4 @@
-import type { FormRepository } from "../../Domain/Repository/FormRepository";
+import type { FormRepository } from "../../Domain/Repository/Form/FormRepository.ts";
 import type { RegistrationFormData } from "../../Domain/ValueObject/FormObject/RegistrationForm";
 import { $RegistrationForm } from "../../Domain/ValueObject/FormObject/RegistrationForm";
 import type { Result } from "../../Domain/ValueObject/Result/Result";
@@ -29,7 +29,7 @@ export interface SubmitFormUseCase {
  */
 export async function submitForm(
   data: RegistrationFormData,
-  repository: FormRepository = createFormRepository()
+  repository: FormRepository = createFormRepository(),
 ): Promise<Result<void, ValidationError[] | Error>> {
   // フォームの検証
   const validationResult = repository.validate(data);
@@ -62,6 +62,6 @@ export const createSubmitFormUseCase = (
   repository: FormRepository,
 ): SubmitFormUseCase => {
   return {
-    execute: (data: RegistrationFormData) => submitForm(data, repository)
+    execute: (data: RegistrationFormData) => submitForm(data, repository),
   };
 };
