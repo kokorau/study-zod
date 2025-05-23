@@ -3,6 +3,7 @@
     id="sample-form"
     class="p-6 bg-white rounded-2xl shadow-md space-y-6"
     @submit.prevent="handleSubmit"
+    novalidate
   >
     <h2 class="text-2xl font-bold text-gray-800">登録フォーム</h2>
 
@@ -16,7 +17,7 @@
         id="name"
         v-model="formData.name"
         @input="handleInputChange('name')"
-        class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900"
+        class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900 h-10 px-3"
       />
       <p v-if="errors.name" class="mt-1 text-sm text-red-600">
         {{ errors.name }}
@@ -33,7 +34,8 @@
         id="email"
         v-model="formData.email"
         @input="handleInputChange('email')"
-        class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900"
+        class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900 h-10 px-3"
+        autocomplete="off"
       />
       <p v-if="errors.email" class="mt-1 text-sm text-red-600">
         {{ errors.email }}
@@ -50,7 +52,7 @@
         id="password"
         v-model="formData.password"
         @input="handleInputChange('password')"
-        class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900"
+        class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900 h-10 px-3"
       />
       <p v-if="errors.password" class="mt-1 text-sm text-red-600">
         {{ errors.password }}
@@ -67,9 +69,7 @@
         id="age"
         v-model="formData.age"
         @input="handleInputChange('age')"
-        min="0"
-        max="150"
-        class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900"
+        class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900 h-10 px-3"
       />
       <p v-if="errors.age" class="mt-1 text-sm text-red-600">
         {{ errors.age }}
@@ -87,7 +87,7 @@
             value="male"
             v-model="formData.gender"
             @change="handleInputChange('gender')"
-            class="text-indigo-600"
+            class="w-4 h-4 appearance-none border border-gray-300 rounded-full checked:bg-indigo-500 focus:outline-none bg-white"
           />
           <span class="ml-2 text-gray-700">男性</span>
         </label>
@@ -98,7 +98,7 @@
             value="female"
             v-model="formData.gender"
             @change="handleInputChange('gender')"
-            class="text-indigo-600"
+            class="w-4 h-4 appearance-none border border-gray-300 rounded-full checked:bg-indigo-500 focus:outline-none bg-white"
           />
           <span class="ml-2 text-gray-700">女性</span>
         </label>
@@ -117,7 +117,7 @@
         id="country"
         v-model="formData.country"
         @change="handleInputChange('country')"
-        class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900"
+        class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900 h-10 px-3"
       >
         <option value="">選択してください</option>
         <option value="jp">日本</option>
@@ -139,7 +139,7 @@
         v-model="formData.bio"
         @input="handleInputChange('bio')"
         rows="4"
-        class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900"
+        class="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-900 px-3 py-2"
       ></textarea>
       <p v-if="errors.bio" class="mt-1 text-sm text-red-600">
         {{ errors.bio }}
@@ -153,7 +153,7 @@
         id="agreeTerms"
         v-model="formData.agreeTerms"
         @change="handleInputChange('agreeTerms')"
-        class="text-indigo-600 rounded"
+        class="w-4 h-4 appearance-none border border-gray-300 rounded checked:bg-indigo-500 checked:border-transparent focus:outline-none bg-white"
       />
       <label for="agreeTerms" class="ml-2 text-sm text-gray-700"
         >利用規約に同意します</label
