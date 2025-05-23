@@ -192,10 +192,8 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { createFormRepository } from "../Infrastructure/Repository/FormRepositoryImpl";
-import {
-  validateForm,
-  submitForm as submitFormService,
-} from "../Application/Service/FormService";
+import { validateForm } from "../Application/UseCase/ValidateFormUseCase";
+import { submitForm as submitFormService } from "../Application/UseCase/SubmitFormUseCase";
 import { match } from "../Domain/Common/Result";
 import type { RegistrationFormData } from "../Domain/ValueObject/FormObject/RegistrationForm";
 // UIコンポーネントではinput要素を使用するが、ドメインモデルではFieldを使用
