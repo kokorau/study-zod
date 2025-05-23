@@ -1,9 +1,9 @@
-import type { FormRepository } from "../../Domain/Repository/Form/FormRepository.ts";
-import type { RegistrationForm } from "../../Domain/ValueObject/FormObject/RegistrationForm";
-import { $RegistrationForm } from "../../Domain/ValueObject/FormObject/RegistrationForm";
-import type { Result } from "../../Domain/ValueObject/Result/Result";
-import { success, failure } from "../../Domain/ValueObject/Result/Result";
-import type { ValidationError } from "../../Domain/ValueObject/Error/ValidationError";
+import type { FormRepository } from "../../../Domain/Repository/Form/FormRepository.ts";
+import type { RegistrationForm } from "../../../Domain/ValueObject/FormObject/RegistrationForm.ts";
+import { $RegistrationForm } from "../../../Domain/ValueObject/FormObject/RegistrationForm.ts";
+import type { Result } from "../../../Domain/ValueObject/Result/Result.ts";
+import { success, failure } from "../../../Domain/ValueObject/Result/Result.ts";
+import type { ValidationError } from "../../../Domain/ValueObject/Error/ValidationError.ts";
 // FormInputからFormFieldに変更
 
 /**

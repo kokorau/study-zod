@@ -7,7 +7,7 @@ import {
   match,
 } from "../../Domain/ValueObject/Result/Result";
 import type { ValidationError } from "../../Domain/ValueObject/Error/ValidationError";
-import { createFormRepository } from "../../Infrastructure/Repository/FormRepositoryImpl";
+import { createFormRepository } from "../../Infrastructure/Repository/Form/FormRepositoryImpl.ts";
 import { localizeErrors } from "./LocalizeErrorsUseCase";
 
 /**

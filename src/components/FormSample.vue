@@ -191,7 +191,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import { createFormRepository } from "../Infrastructure/Repository/FormRepositoryImpl";
+import { createFormRepository } from "../Infrastructure/Repository/Form/FormRepositoryImpl.ts";
 import { validateForm } from "../Application/UseCase/ValidateFormUseCase";
 import { submitForm as submitFormService } from "../Application/UseCase/SubmitFormUseCase";
 import { match } from "../Domain/ValueObject/Result/Result";
@@ -278,10 +278,7 @@ const handleSubmit = async () => {
 
       try {
         // フォームを送信
-        const submitResult = await submitFormService(
-          formData,
-          formRepository,
-        );
+        const submitResult = await submitFormService(formData, formRepository);
 
         match(
           submitResult,
@@ -305,13 +302,15 @@ const handleSubmit = async () => {
             submitSuccess.value = false;
 
             // エラーの種類に応じてメッセージを設定
-            if (typeof error === 'string') {
+            if (typeof error === "string") {
               submitMessage.value = `エラー: ${error}`;
             } else if (Array.isArray(error)) {
               // ValidationError[]の場合
               // 型アサーションを使用して、errorが配列であることを明示的に伝える
               const errorArray = error as Array<{ message: string }>;
-              const errorMessages = errorArray.map((e: { message: string }) => e.message).join(", ");
+              const errorMessages = errorArray
+                .map((e: { message: string }) => e.message)
+                .join(", ");
               submitMessage.value = `検証エラー: ${errorMessages}`;
             } else {
               submitMessage.value = "エラーが発生しました";
