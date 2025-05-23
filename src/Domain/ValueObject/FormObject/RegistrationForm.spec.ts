@@ -1,8 +1,8 @@
 import { describe, test, expect } from "vitest";
 import { $RegistrationForm } from "./RegistrationForm";
-import type { Success, Failure } from "../../Common/Result";
-import { ErrorCodes } from "../../Error/ErrorCodes";
-import type { ValidationError } from "../../Error/ValidationError";
+import type { Success, Failure } from "../Result/Result";
+import { ErrorCodes } from "../Error/ErrorCodes";
+import type { ValidationError } from "../Error/ValidationError";
 
 describe("RegistrationForm", () => {
   test("creates a valid RegistrationForm with valid data", () => {

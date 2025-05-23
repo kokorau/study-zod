@@ -1,8 +1,8 @@
 import { describe, test, expect } from "vitest";
 import { $EmailField } from "./EmailField.ts";
-import { ErrorCodes } from "../../Error/ErrorCodes.ts";
-import type { ValidationError } from "../../Error/ValidationError.ts";
-import type { Success, Failure } from "../../Common/Result.ts";
+import { ErrorCodes } from "../Error/ErrorCodes.ts";
+import type { ValidationError } from "../Error/ValidationError.ts";
+import type { Success, Failure } from "../Result/Result.ts";
 
 describe("EmailField", () => {
   test("creates a valid EmailField with valid email", () => {

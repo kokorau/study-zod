@@ -194,7 +194,7 @@ import { ref, reactive } from "vue";
 import { createFormRepository } from "../Infrastructure/Repository/FormRepositoryImpl";
 import { validateForm } from "../Application/UseCase/ValidateFormUseCase";
 import { submitForm as submitFormService } from "../Application/UseCase/SubmitFormUseCase";
-import { match } from "../Domain/Common/Result";
+import { match } from "../Domain/ValueObject/Result/Result";
 import type { RegistrationFormData } from "../Domain/ValueObject/FormObject/RegistrationForm";
 // UIコンポーネントではinput要素を使用するが、ドメインモデルではFieldを使用
 
@@ -236,7 +236,7 @@ const validateField = (fieldName: keyof RegistrationFormData) => {
         delete errors[fieldName];
       }
     },
-    (validationErrors) => {
+    (validationErrors: Record<string, string>) => {
       // このフィールドのエラーのみを更新
       if (validationErrors[fieldName]) {
         errors[fieldName] = validationErrors[fieldName];
@@ -281,7 +281,6 @@ const handleSubmit = async () => {
         const submitResult = await submitFormService(
           formData,
           formRepository,
-          "JP",
         );
 
         match(
@@ -302,7 +301,7 @@ const handleSubmit = async () => {
             // フォームがリセットされたので、送信状態もリセット
             isFormSubmitted.value = false;
           },
-          (error) => {
+          (error: unknown) => {
             submitSuccess.value = false;
 
             // エラーの種類に応じてメッセージを設定
@@ -323,7 +322,7 @@ const handleSubmit = async () => {
         isSubmitting.value = false;
       }
     },
-    async (validationErrors) => {
+    async (validationErrors: Record<string, string>) => {
       Object.assign(errors, validationErrors);
       return Promise.resolve();
     },

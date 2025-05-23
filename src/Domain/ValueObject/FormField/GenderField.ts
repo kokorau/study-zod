@@ -1,9 +1,9 @@
 import { z } from "zod";
-import type { Result } from "../../Common/Result";
-import { success, failure } from "../../Common/Result";
-import type { ValidationError } from "../../Error/ValidationError";
-import { createValidationError } from "../../Error/ValidationError";
-import { ErrorCodes } from "../../Error/ErrorCodes";
+import type { Result } from "../Result/Result";
+import { success, failure } from "../Result/Result";
+import type { ValidationError } from "../Error/ValidationError";
+import { createValidationError } from "../Error/ValidationError";
+import { ErrorCodes } from "../Error/ErrorCodes";
 import type { FormField } from "./FormField";
 import type { FormFieldOperations } from "./FormFieldFactory";
 import type { EnumInput } from "../InputType/InputType.ts";

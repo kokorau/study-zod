@@ -1,9 +1,9 @@
 import type { FormRepository } from "../../Domain/Repository/FormRepository";
 import type { RegistrationFormData } from "../../Domain/ValueObject/FormObject/RegistrationForm";
 import { $RegistrationForm } from "../../Domain/ValueObject/FormObject/RegistrationForm";
-import type { Result } from "../../Domain/Common/Result";
-import { failure } from "../../Domain/Common/Result";
-import type { ValidationError } from "../../Domain/Error/ValidationError";
+import type { Result } from "../../Domain/ValueObject/Result/Result";
+import { failure } from "../../Domain/ValueObject/Result/Result";
+import type { ValidationError } from "../../Domain/ValueObject/Error/ValidationError";
 import { createFormRepository } from "../../Infrastructure/Repository/FormRepositoryImpl";
 // FormInputからFormFieldに変更
 

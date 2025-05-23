@@ -1,4 +1,4 @@
-import type { ValidationError } from "../../Domain/Error/ValidationError";
+import type { ValidationError } from "../../Domain/ValueObject/Error/ValidationError";
 import { getLocaleMessages } from "../Locale/FormMessages";
 
 /**

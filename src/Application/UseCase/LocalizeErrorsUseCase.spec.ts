@@ -1,8 +1,8 @@
-import { describe, test, expect, vi, beforeEach } from "vitest";
+import { describe, test, expect, vi } from "vitest";
 import { localizeErrors, createLocalizeErrorsUseCase } from "./LocalizeErrorsUseCase";
-import { ErrorCodes } from "../../Domain/Error/ErrorCodes";
-import type { ErrorCode } from "../../Domain/Error/ErrorCodes";
-import { createValidationError } from "../../Domain/Error/ValidationError";
+import { ErrorCodes } from "../../Domain/ValueObject/Error/ErrorCodes";
+import type { ErrorCode } from "../../Domain/ValueObject/Error/ErrorCodes";
+import { createValidationError } from "../../Domain/ValueObject/Error/ValidationError";
 
 // getLocaleMessagesのモック
 vi.mock("../Locale/FormMessages", () => ({

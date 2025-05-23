@@ -1,8 +1,8 @@
 import type { FormRepository } from "../../Domain/Repository/FormRepository";
 import type { RegistrationFormData } from "../../Domain/ValueObject/FormObject/RegistrationForm";
-import type { Result } from "../../Domain/Common/Result";
-import { success, failure, match } from "../../Domain/Common/Result";
-import type { ValidationError } from "../../Domain/Error/ValidationError";
+import type { Result } from "../../Domain/ValueObject/Result/Result";
+import { success, failure, match } from "../../Domain/ValueObject/Result/Result";
+import type { ValidationError } from "../../Domain/ValueObject/Error/ValidationError";
 import { createFormRepository } from "../../Infrastructure/Repository/FormRepositoryImpl";
 import { localizeErrors } from "./LocalizeErrorsUseCase";
 

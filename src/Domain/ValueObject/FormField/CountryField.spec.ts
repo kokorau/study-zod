@@ -1,7 +1,7 @@
 import { describe, test, expect } from "vitest";
 import { $CountryField, CountryEnum } from "./CountryField.ts";
-import { ErrorCodes } from "../../Error/ErrorCodes.ts";
-import type { Success, Failure } from "../../Common/Result.ts";
+import { ErrorCodes } from "../Error/ErrorCodes.ts";
+import type { Success, Failure } from "../Result/Result.ts";
 
 describe("CountryField", () => {
   test("creates a valid CountryField with Japan value", () => {

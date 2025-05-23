@@ -1,4 +1,4 @@
-import { ErrorCodes } from '../../Domain/Error/ErrorCodes';
+import { ErrorCodes } from '../../Domain/ValueObject/Error/ErrorCodes';
 
 /**
  * フォームのエラーメッセージをローカライズするための定数

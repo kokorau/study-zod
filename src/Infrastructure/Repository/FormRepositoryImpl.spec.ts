@@ -1,7 +1,7 @@
 import { describe, test, expect, vi, beforeEach } from "vitest";
 import { createFormRepository } from "./FormRepositoryImpl";
 import { $RegistrationForm } from "../../Domain/ValueObject/FormObject/RegistrationForm";
-import { ErrorCodes } from "../../Domain/Error/ErrorCodes";
+import { ErrorCodes } from "../../Domain/ValueObject/Error/ErrorCodes";
 
 describe("FormRepositoryImpl", () => {
   let repository: ReturnType<typeof createFormRepository>;

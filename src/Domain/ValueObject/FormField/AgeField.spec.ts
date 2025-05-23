@@ -1,7 +1,7 @@
 import { describe, test, expect } from "vitest";
 import { $AgeField } from "./AgeField.ts";
-import { ErrorCodes } from "../../Error/ErrorCodes.ts";
-import type { Success, Failure } from "../../Common/Result.ts";
+import { ErrorCodes } from "../Error/ErrorCodes.ts";
+import type { Success, Failure } from "../Result/Result.ts";
 
 describe("AgeField", () => {
   test("creates a valid AgeField with valid age as number", () => {

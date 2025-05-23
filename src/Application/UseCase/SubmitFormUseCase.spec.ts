@@ -1,8 +1,8 @@
 import { describe, test, expect, vi, beforeEach } from "vitest";
 import { createSubmitFormUseCase, submitForm } from "./SubmitFormUseCase";
-import { success, failure } from "../../Domain/Common/Result";
-import { createValidationError } from "../../Domain/Error/ValidationError";
-import { ErrorCodes } from "../../Domain/Error/ErrorCodes";
+import { success, failure } from "../../Domain/ValueObject/Result/Result";
+import { createValidationError } from "../../Domain/ValueObject/Error/ValidationError";
+import { ErrorCodes } from "../../Domain/ValueObject/Error/ErrorCodes";
 
 describe("SubmitFormUseCase", () => {
   // モックリポジトリ

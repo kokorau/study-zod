@@ -1,7 +1,7 @@
 import { z } from "zod";
-import type { Result } from "../../Common/Result";
-import { success, failure } from "../../Common/Result";
-import type { ValidationError } from "../../Error/ValidationError";
+import type { Result } from "../Result/Result";
+import { success, failure } from "../Result/Result";
+import type { ValidationError } from "../Error/ValidationError";
 import type { ExtractFormDataType } from "../FormField/FormFieldFactory";
 import { type NameField, $NameField } from "../FormField/NameField";
 import { type EmailField, $EmailField } from "../FormField/EmailField";

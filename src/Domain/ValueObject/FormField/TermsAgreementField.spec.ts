@@ -1,7 +1,7 @@
 import { describe, test, expect } from "vitest";
 import { $TermsAgreementField } from "./TermsAgreementField.ts";
-import { ErrorCodes } from "../../Error/ErrorCodes.ts";
-import type { Success, Failure } from "../../Common/Result.ts";
+import { ErrorCodes } from "../Error/ErrorCodes.ts";
+import type { Success, Failure } from "../Result/Result.ts";
 
 describe("TermsAgreementField", () => {
   test("creates a valid TermsAgreementField with true value", () => {

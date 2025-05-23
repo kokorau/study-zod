@@ -1,7 +1,7 @@
 import { describe, test, expect } from "vitest";
 import { $BioField } from "./BioField.ts";
-import { ErrorCodes } from "../../Error/ErrorCodes.ts";
-import type { Success, Failure } from "../../Common/Result.ts";
+import { ErrorCodes } from "../Error/ErrorCodes.ts";
+import type { Success, Failure } from "../Result/Result.ts";
 
 describe("BioField", () => {
   test("creates a valid BioField with valid bio", () => {

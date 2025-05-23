@@ -1,6 +1,6 @@
 import type { z } from 'zod';
-import type { Result } from '../Common/Result';
-import type { ValidationError } from '../Error/ValidationError';
+import type { Result } from '../ValueObject/Result/Result';
+import type { ValidationError } from '../ValueObject/Error/ValidationError';
 import type { RegistrationForm } from '../ValueObject/FormObject/RegistrationForm';
 
 /**
